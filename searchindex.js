@@ -1,0 +1,1 @@
+Search.setIndex({envversion:46,filenames:["includeme","index"],objects:{},objnames:{},objtypes:{},terms:{allow:0,ation:0,autom:0,content:1,data:0,download:0,index:1,modul:1,ool:0,orpu:0,page:1,queri:0,search:[0,1],ssian:0,which:0},titles:["Trunc","Welcome to trunc&#8217;s documentation!"],titleterms:{document:1,indic:1,tabl:1,trunc:[0,1],welcom:1}})
