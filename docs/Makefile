@@ -4,6 +4,8 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
+SPHINXAPIDOC  = sphinx-apidoc
+SOURCEDIR     = ../trunc
 PAPER         =
 BUILDDIR      = ../../2016_01_09_TruncRNC_Docs
 PDFBUILDDIR   = /tmp
@@ -196,3 +198,6 @@ pseudoxml:
 
 buildandcommithtml: html latexpdf
 	cd $(BUILDDIR)/html; git add . ; git commit -m "rebuild docs"; git push origin gh-pages
+
+htmlautodoc:
+	$(SPHINXAPIDOC) --separate -o $(BUILDDIR)/html $(SOURCEDIR); cd $(BUILDDIR)/html; git add . ; git commit -m "rebuild apidocs"; git push origin gh-pages

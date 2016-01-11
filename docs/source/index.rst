@@ -13,6 +13,12 @@ Contents:
 
    includeme
 
+.. automodule:: trunc.util
+   :members:
+
+.. automodule:: trunc.web
+   :members:
+
 Indices and tables
 ==================
 
