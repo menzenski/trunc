@@ -13,6 +13,8 @@ Contents:
 
    includeme
 
+.. automodule:: trunc
+
 Indices and tables
 ==================
 
