@@ -11,7 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   includeme
+.. automodule:: trunc
+   :members:
+
+.. automodule:: trunc.rnc
+   :members:
 
 .. automodule:: trunc.util
    :members:
