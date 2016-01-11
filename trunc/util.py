@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
-"""Provides utilities for handling unicode and saving output."""
+"""
+trunc.util
+~~~~~~~~~~
+
+This module provides miscellaneous helpful utility functions."""
 
 from __future__ import absolute_import, print_function
 
 def fibonacci_number(n):
     """Return the nth Fibonacci number.
 
-    :param n: The position to be returned in the Fibonacci series
+    :param n: The position in the Fibonacci series whose value will be
+    returned
     :rtype: ``int``
     """
     a, b = 1, 1
