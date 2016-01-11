@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
+**********
 trunc.util
-~~~~~~~~~~
+**********
 
 This module provides miscellaneous helpful utility functions."""
 

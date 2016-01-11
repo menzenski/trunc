@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""Provides classes for accessing web pages."""
+"""
+*********
+trunc.web
+*********
+
+This module provides classes for accessing web pages."""
 
 from __future__ import absolute_import, print_function
 
