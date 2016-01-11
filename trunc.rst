@@ -4,14 +4,11 @@ trunc package
 Submodules
 ----------
 
-trunc.util module
------------------
+.. toctree::
 
-.. automodule:: trunc.util
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   trunc.rnc
+   trunc.util
+   trunc.web
 
 Module contents
 ---------------
