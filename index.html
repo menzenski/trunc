@@ -23,8 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="trunc 0.1 documentation" href="#" />
-    <link rel="next" title="Trunc" href="includeme.html" /> 
+    <link rel="top" title="trunc 0.1 documentation" href="#" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -36,9 +35,6 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="includeme.html" title="Trunc"
-             accesskey="N">next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">trunc 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -52,12 +48,95 @@
 <h1>Welcome to trunc&#8217;s documentation!<a class="headerlink" href="#welcome-to-trunc-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="includeme.html">Trunc</a></li>
+<ul class="simple">
 </ul>
 </div>
 <span class="target" id="module-trunc"></span><p>Provides the Trunc package for scraping the Russian National Corpus.</p>
-<span class="target" id="module-trunc.util"></span></div>
+<span class="target" id="module-trunc.rnc"></span><p>Defines objects for interfacing with the Russian National Corpus.</p>
+<span class="target" id="module-trunc.util"></span><p>Provides utilities for handling unicode and saving output.</p>
+<dl class="function">
+<dt id="trunc.util.fibonacci_number">
+<code class="descclassname">trunc.util.</code><code class="descname">fibonacci_number</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/util.html#fibonacci_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.util.fibonacci_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nth Fibonacci number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> &#8211; The position to be returned in the Fibonacci series</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal"><span class="pre">int</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="trunc.util.to_unicode_or_bust">
+<code class="descclassname">trunc.util.</code><code class="descname">to_unicode_or_bust</code><span class="sig-paren">(</span><em>obj</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/util.html#to_unicode_or_bust"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.util.to_unicode_or_bust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal"><span class="pre">obj</span></code> as <code class="docutils literal"><span class="pre">unicode</span></code>.</p>
+<p>Credit for this function belongs to
+<cite>Kumar McMillan &lt;http://farmdev.com/talks/unicode&gt;</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj</strong> (<code class="docutils literal"><span class="pre">str</span></code>, <code class="docutils literal"><span class="pre">unicode</span></code>) &#8211; the object to be returned as <code class="docutils literal"><span class="pre">unicode</span></code></li>
+<li><strong>encoding</strong> &#8211; the desired encoding (UTF-8 is the default)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">unicode</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-trunc.web"></span><p>Provides classes for accessing web pages.</p>
+<dl class="class">
+<dt id="trunc.web.MyOpener">
+<em class="property">class </em><code class="descclassname">trunc.web.</code><code class="descname">MyOpener</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#MyOpener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.MyOpener" title="Permalink to this definition">¶</a></dt>
+<dd><p>A FancyURLopener object with a custom User-Agent field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.web.Webpage">
+<em class="property">class </em><code class="descclassname">trunc.web.</code><code class="descname">Webpage</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic webpage with attributes.</p>
+<dl class="method">
+<dt id="trunc.web.Webpage.html">
+<code class="descname">html</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return contents of the Webpage as html.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="trunc.web.Webpage.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the webpage.</p>
+<p>If there&#8217;s an error opening the page (i.e., if the Corpus throttles
+the scraper), wait and retry in successively longer intervals (which
+increase according to the Fibonacci sequence) until the page loads
+successfully.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal"><span class="pre">&lt;'instance'&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="trunc.web.Webpage.soup">
+<code class="descname">soup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.soup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.soup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return contents of the Webpage as a BeautifulSoup object.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
@@ -79,9 +158,6 @@
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
-  <h4>Next topic</h4>
-  <p class="topless"><a href="includeme.html"
-                        title="next chapter">Trunc</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -115,9 +191,6 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="includeme.html" title="Trunc"
-             >next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">trunc 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
