@@ -59,11 +59,20 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
 
 <div class="viewcode-block" id="fibonacci_number"><a class="viewcode-back" href="../../index.html#trunc.util.fibonacci_number">[docs]</a><span class="k">def</span> <span class="nf">fibonacci_number</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the nth Fibonacci number.</span>
+    <span class="sd">&quot;&quot;&quot;Return the nth number in the Fibonacci series.</span>
+
+<span class="sd">    Each number in the Fibonacci series is equal to the sum of the</span>
+<span class="sd">    preceding two numbers:</span>
+
+<span class="sd">        1 1 2 3 5 8 13 21 34 55 ...</span>
 
 <span class="sd">    :param n: The position in the Fibonacci series whose value will be</span>
 <span class="sd">    returned</span>
 <span class="sd">    :rtype: ``int``</span>
+
+<span class="sd">    &gt;&gt;&gt; fibonacci_number(6)</span>
+<span class="sd">    8</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
