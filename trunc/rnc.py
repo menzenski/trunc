@@ -33,7 +33,7 @@ class RNCSource(object):
         self.parse_dates()
 
     def parse_dates(self):
-        """Parse the source name and return the dates of its writing.
+        """Parse the source name and update the object's ``date`` attributes.
 
         If a source's name contains a date range, its ``date_middle`` is the
         average value of the two dates in the range:
