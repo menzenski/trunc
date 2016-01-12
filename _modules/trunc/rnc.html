@@ -127,46 +127,46 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <div class="viewcode-block" id="RNCSource"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCSource">[docs]</a><span class="k">class</span> <span class="nc">RNCSource</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;One source in RNC search results.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;One source in RNC search results.</span>
+
+<span class="sd">    :param source_name: the full name of the source, as it appears inside the ``&lt;span&gt;`` element.</span>
+<span class="sd">    :type source_name: ``str``, ``unicode``</span>
+
+<span class="sd">    If a source&#39;s name contains a date range, its ``date_middle`` is the</span>
+<span class="sd">    average value of the two dates in the range:</span>
+
+<span class="sd">    &gt;&gt;&gt; a = RNCSource(u&quot;И. Э. Кио. Иллюзии без иллюзий (1995-1999)&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; a.date_begin, a.date_middle, a.date_end</span>
+<span class="sd">    (1995.0, 1997.0, 1999,0)</span>
+
+<span class="sd">    If a source&#39;s name contains only one date, all three ``date`` attributes</span>
+<span class="sd">    are identical:</span>
+
+<span class="sd">    &gt;&gt;&gt; b = RNCSource(u&quot;В. Г. Распутин. Новая профессия (1998)&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; b.date_begin, b.date_middle, b.date_end</span>
+<span class="sd">    (1998.0, 1998.0, 1998.0)</span>
+
+<span class="sd">    If a source contains multiple individual dates (but not a range), the</span>
+<span class="sd">    earliest date is chosen, as this typically occurs when a source name</span>
+<span class="sd">    describes a reprinted work, and both the original publication year</span>
+<span class="sd">    and the reprinted publication year are provided:</span>
+
+<span class="sd">    &gt;&gt;&gt; c = RNCSource(u&quot;Фридрих Горенштейн. Куча (1982) // «Октябрь», 1996&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; c.date_begin, c.date_middle, c.date_end</span>
+<span class="sd">    (1982.0, 1982.0, 1982.0)</span>
+
+<span class="sd">    If a source contains no dates at all, the default date values of ``0``</span>
+<span class="sd">    are used. This is uncommon in the main (modern) corpus, but happens</span>
+<span class="sd">    frequently in the historical corpora:</span>
+
+<span class="sd">    &gt;&gt;&gt; d = RNCSource(u&quot;Житие Андрея Юродивого&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; d.date_begin, d.date_middle, d.date_end</span>
+<span class="sd">    (0.0, 0.0, 0.0)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the RNCSource object.</span>
-
-<span class="sd">        :param source_name: the full name of the source, as it appears inside the ``&lt;span&gt;`` element.</span>
-<span class="sd">        :type source_name: ``str``, ``unicode``</span>
-
-<span class="sd">        If a source&#39;s name contains a date range, its ``date_middle`` is the</span>
-<span class="sd">        average value of the two dates in the range:</span>
-
-<span class="sd">        &gt;&gt;&gt; a = RNCSource(u&quot;И. Э. Кио. Иллюзии без иллюзий (1995-1999)&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; a.date_begin, a.date_middle, a.date_end</span>
-<span class="sd">        (1995.0, 1997.0, 1999,0)</span>
-
-<span class="sd">        If a source&#39;s name contains only one date, all three ``date``</span>
-<span class="sd">        attributes are identical:</span>
-
-<span class="sd">        &gt;&gt;&gt; b = RNCSource(u&quot;В. Г. Распутин. Новая профессия (1998)&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; b.date_begin, b.date_middle, b.date_end</span>
-<span class="sd">        (1998.0, 1998.0, 1998.0)</span>
-
-<span class="sd">        If a source contains multiple individual dates (but not a range), the</span>
-<span class="sd">        earliest date is chosen, as this typically occurs when a source name</span>
-<span class="sd">        describes a reprinted work, and both the original publication year</span>
-<span class="sd">        and the reprinted publication year are provided:</span>
-
-<span class="sd">        &gt;&gt;&gt; c = RNCSource(u&quot;Фридрих Горенштейн. Куча (1982) // «Октябрь», 1996&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; c.date_begin, c.date_middle, c.date_end</span>
-<span class="sd">        (1982.0, 1982.0, 1982.0)</span>
-
-<span class="sd">        If a source contains no dates at all, the default date values of ``0``</span>
-<span class="sd">        are used. This is uncommon in the main (modern) corpus, but happens</span>
-<span class="sd">        frequently in the historical corpora:</span>
-
-<span class="sd">        &gt;&gt;&gt; d = RNCSource(u&quot;Житие Андрея Юродивого&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; d.date_begin, d.date_middle, d.date_end</span>
-<span class="sd">        (0.0, 0.0, 0.0)</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCSource object.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source_name</span> <span class="o">=</span> <span class="n">source_name</span>
         <span class="c"># strip parentheses and their contents</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bare_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\([^)]*\)&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_name</span><span class="p">)</span>
@@ -175,9 +175,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">date_middle</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_end</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="c"># parse the source string to find the dates</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dates</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_dates</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_parse_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCSource.parse_dates"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCSource.parse_dates">[docs]</a>    <span class="k">def</span> <span class="nf">parse_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse the source name and return the dates of its writing.&quot;&quot;&quot;</span>
         <span class="n">date_seq</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;\d{4}-\d{4}&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">date_seq</span><span class="p">:</span>
@@ -191,7 +191,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">date_middle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">date_end</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">pass</span></div>
+                <span class="k">pass</span></div></div>
 </pre></div>
 
     </div>
