@@ -15,10 +15,9 @@ def fibonacci_number(n):
     Each number in the Fibonacci series is equal to the sum of the
     preceding two numbers:
 
-        1 1 2 3 5 8 13 21 34 55 ...
+        1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ...
 
-    :param n: The position in the Fibonacci series whose value will be
-    returned
+    :param n: The position in the Fibonacci series whose value will be returned
     :rtype: ``int``
 
     >>> fibonacci_number(6)
