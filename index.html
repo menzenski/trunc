@@ -150,6 +150,10 @@
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="trunc.rnc.RNCSource.parse_dates">
+<code class="descname">parse_dates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCSource.parse_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCSource.parse_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the source name and return the dates of its writing.</p>
 <p>If a source&#8217;s name contains a date range, its <code class="docutils literal"><span class="pre">date_middle</span></code> is the
 average value of the two dates in the range:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">RNCSource</span><span class="p">(</span><span class="s">u&quot;И. Э. Кио. Иллюзии без иллюзий (1995-1999)&quot;</span><span class="p">)</span>
@@ -157,8 +161,8 @@ average value of the two dates in the range:</p>
 <span class="go">(1995.0, 1997.0, 1999,0)</span>
 </pre></div>
 </div>
-<p>If a source&#8217;s name contains only one date, all three <code class="docutils literal"><span class="pre">date</span></code> attributes
-are identical:</p>
+<p>If a source&#8217;s name contains only one date, all three <code class="docutils literal"><span class="pre">date</span></code>
+attributes are identical:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">RNCSource</span><span class="p">(</span><span class="s">u&quot;В. Г. Распутин. Новая профессия (1998)&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">date_begin</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">date_middle</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">date_end</span>
 <span class="go">(1998.0, 1998.0, 1998.0)</span>
@@ -173,18 +177,14 @@ and the reprinted publication year are provided:</p>
 <span class="go">(1982.0, 1982.0, 1982.0)</span>
 </pre></div>
 </div>
-<p>If a source contains no dates at all, the default date values of <code class="docutils literal"><span class="pre">0</span></code>
-are used. This is uncommon in the main (modern) corpus, but happens
-frequently in the historical corpora:</p>
+<p>If a source contains no dates at all, the default date values of
+<code class="docutils literal"><span class="pre">0.0</span></code> are used. This is uncommon in the main (modern) corpus, but
+happens frequently in the historical corpora:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">RNCSource</span><span class="p">(</span><span class="s">u&quot;Житие Андрея Юродивого&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">date_begin</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">date_middle</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">date_end</span>
 <span class="go">(0.0, 0.0, 0.0)</span>
 </pre></div>
 </div>
-<dl class="method">
-<dt id="trunc.rnc.RNCSource.parse_dates">
-<code class="descname">parse_dates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCSource.parse_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCSource.parse_dates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the source name and return the dates of its writing.</p>
 </dd></dl>
 
 </dd></dl>
