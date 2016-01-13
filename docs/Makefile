@@ -202,5 +202,5 @@ buildandcommithtml: html latexpdf
 autodoc:
 	$(SPHINXAPIDOC) --separate --force -o $(BUILDDIR)/html $(SOURCEDIR)
 
-htmlautodoc: autodoc html latexpdf
+htmlautodoc: autodoc html
 	cd $(BUILDDIR)/html; git add . ; git commit -m "rebuild apidocs"; git push origin gh-pages

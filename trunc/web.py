@@ -17,11 +17,23 @@ from urllib import FancyURLopener
 from .util import fibonacci_number
 
 class MyOpener(FancyURLopener):
-    """A FancyURLopener object with a custom User-Agent field."""
+    """A FancyURLopener object with a custom User-Agent field.
+
+    The ``MyOpener.version`` class attribute contains the User-Agent field.
+    Use ``MyOpener.set_version()`` to change this attribute.
+    """
 
     version = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) "
                "AppleWebKit/600.5.17 (KHTML, like Gecko) "
                "Version/8.0.5 Safari/600.5.17")
+
+    def set_version(self, new_version):
+        """Define a new User-Agent field for the MyOpener class.
+
+        :param new_version: desired User-Agent field
+        :type new_version: ``str``
+        """
+        MyOpener.version = new_version
 
 class Webpage(object):
     """Generic webpage with attributes."""
