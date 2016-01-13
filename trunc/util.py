@@ -33,7 +33,7 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
     """Return ``obj`` as ``unicode``.
 
     Credit for this function belongs to
-    `Kumar McMillan <http://farmdev.com/talks/unicode>`.
+    `Kumar McMillan <http://farmdev.com/talks/unicode>`_.
 
     :param obj: the object to be returned as ``unicode``
     :type obj: ``str``, ``unicode``
