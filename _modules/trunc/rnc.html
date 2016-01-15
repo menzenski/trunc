@@ -143,8 +143,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">date_begin</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_middle</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_end</span> <span class="o">=</span> <span class="mf">0.0</span>
+
         <span class="c"># parse the source string to find the dates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parse_dates</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a human-readable unicode representation of the RNCSource.</span>
+
+<span class="sd">        :rtype: ``unicode``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">u&#39;RNC Source: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RNCSource.parse_dates"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCSource.parse_dates">[docs]</a>    <span class="k">def</span> <span class="nf">parse_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse the source name and update the object&#39;s ``date`` attributes.</span>
@@ -193,8 +201,187 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">date_middle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">date_end</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">pass</span></div></div>
-</pre></div>
+                <span class="k">pass</span>
+
+</div></div>
+<div class="viewcode-block" id="RNCQueryGeneric"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryGeneric</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic query of the Russian National Corpus.</span>
+
+<span class="sd">    The :class:`RNCQueryGeneric` class defines a generic query of the Russian</span>
+<span class="sd">    National Corpus. The more specific queries :class:`RNCQueryOld`,</span>
+<span class="sd">    :class:`RNCQueryMid`, and :class:`RNCQueryMain` all inherit from this</span>
+<span class="sd">    base class.</span>
+
+<span class="sd">    The keyword arguments ``**kwargs`` passed to the class at initialization</span>
+<span class="sd">    represent the key-value pairs used to assemble a complete search URL. For</span>
+<span class="sd">    example, searching the main corpus of the RNC for the verb lemma</span>
+<span class="sd">    *учитать* (using the online interface) generates the following URL:</span>
+
+<span class="sd">        http://search.ruscorpora.ru/search.xml?mycorp=&amp;mysent=&amp;mysize=&amp;dpp=&amp;</span>
+<span class="sd">        spp=&amp;spd=&amp;text=lexgramm&amp;mode=main&amp;sort=gr_tagging&amp;lang=en&amp;parent1=0&amp;</span>
+<span class="sd">        level1=0&amp;lex1=%F3%F7%E8%F2%E0%F2%FC&amp;gramm1=&amp;sem1=&amp;flags1=&amp;</span>
+<span class="sd">        sem-mod1=sem&amp;sem-mod1=sem2&amp;parent2=0&amp;level2=0&amp;min2=1&amp;max2=1&amp;lex2=&amp;</span>
+<span class="sd">        gramm2=&amp;sem2=&amp;flags2=&amp;sem-mod2=sem</span>
+
+<span class="sd">    The key-value pair ``mode=main`` is one pair which would need to be</span>
+<span class="sd">    provided at initialization in order to produce the above URL. The</span>
+<span class="sd">    following example constructs the query described by the above URL using</span>
+<span class="sd">    provided key-value pairs:</span>
+
+<span class="sd">        &gt;&gt;&gt; q = RNCQueryGeneric(</span>
+<span class="sd">                mycorp=&#39;&#39;, mysent=&#39;&#39;, mysize=&#39;&#39;, dpp=&#39;&#39;, spp=&#39;&#39;, spd=&#39;&#39;,</span>
+<span class="sd">                text=&#39;lexgramm&#39;, mode=&#39;main&#39;, sort=&#39;gr_tagging&#39;, lang=&#39;en&#39;,</span>
+<span class="sd">                parent1=0, level1=0, lex1=&#39;%F3%F7%E8%F2%E0%F2%FC&#39;, gramm1=&#39;&#39;,</span>
+<span class="sd">                sem1=&#39;&#39;, flags1=&#39;&#39;, sem_mod1=&#39;sem&#39;, parent2=0, level2=0,</span>
+<span class="sd">                min2=1, max2=1, lex2=&#39;&#39;, gramm2=&#39;&#39;, sem2=&#39;&#39;, flags2=&#39;&#39;,</span>
+<span class="sd">                sem_mod2=&#39;sem&#39;</span>
+<span class="sd">                )</span>
+<span class="sd">        &gt;&gt;&gt; print(q.url())</span>
+<span class="sd">        http://search.ruscorpora.ru/search.xml?spp=&amp;text=lexgramm&amp;mysent=&amp;</span>
+<span class="sd">        level1=0&amp;level2=0&amp;spd=&amp;flags1=&amp;mysize=&amp;sem_mod1=sem&amp;sem_mod2=sem&amp;</span>
+<span class="sd">        sem2=&amp;sem1=&amp;mode=main&amp;sort=gr_tagging&amp;gramm1=&amp;gramm2=&amp;min2=1&amp;lang=en&amp;</span>
+<span class="sd">        lex1=%F3%F7%E8%F2%E0%F2%FC&amp;lex2=&amp;max2=1&amp;flags2=&amp;mycorp=&amp;parent2=0&amp;</span>
+<span class="sd">        parent1=0&amp;dpp=&amp;</span>
+
+<span class="sd">    Note that any keys containing a hyphen (e.g., ``sem-mod1``) should be</span>
+<span class="sd">    passed to the class call with an underscore instead so that they are</span>
+<span class="sd">    valid Python identifiers (e.g., ``sem_mod1``). They&#39;re converted back</span>
+<span class="sd">    into hyphens by the class&#39;s :func:`url` method.</span>
+
+<span class="sd">    Note also that not all of the key-value pairs need to be called explicitly</span>
+<span class="sd">    when a new object of the class is created. Many of them are defaults and</span>
+<span class="sd">    will be supplied automatically.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryGeneric object.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search.xml?&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RNCQueryGeneric.url"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the url for a search of the Russian National Corpus.</span>
+
+<span class="sd">        :rtype: ``str``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s">&#39;base_url&#39;</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)</span>
+                <span class="n">address</span> <span class="o">+=</span> <span class="s">&quot;{}={}&amp;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">address</span>
+
+</div></div>
+<div class="viewcode-block" id="RNCQueryOld"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryOld">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryOld</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Query of the Old subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;old_rus&#39;</span><span class="p">,</span>
+        <span class="s">&#39;text1&#39;</span><span class="p">:</span> <span class="s">&#39;lexgramm&#39;</span><span class="p">,</span>
+        <span class="s">&#39;doc_docid&#39;</span><span class="p">:</span> <span class="s">&#39;0|13|2|3|1|4|7|8|10|12|5|11|9|6&#39;</span><span class="p">,</span>
+        <span class="s">&#39;parent1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;level1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;lexi1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;gramm1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;parent2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;level2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;min2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;max2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryOld object.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search-beta.ruscorpora.ru/search.xml?&quot;</span>
+
+</div>
+<div class="viewcode-block" id="RNCQueryMid"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryMid">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryMid</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Query of the Mid subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;env&#39;</span><span class="p">:</span> <span class="s">&#39;alpha&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;mid_rus&#39;</span><span class="p">,</span>
+        <span class="s">&#39;text&#39;</span><span class="p">:</span> <span class="s">&#39;lexform&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sort&#39;</span><span class="p">:</span> <span class="s">&#39;gr_created&#39;</span><span class="p">,</span>
+        <span class="s">&#39;lang&#39;</span><span class="p">:</span> <span class="s">&#39;ru&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mycorp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysent&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysize&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysentsize&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mydocsize&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;dpp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spd&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;req&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryMid object.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">RNCQueryMid</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search-beta.ruscorpora.ru/search.xml?&quot;</span>
+
+</div>
+<div class="viewcode-block" id="RNCQueryMain"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryMain">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryMain</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Query of the Main subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;mycorp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysent&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysize&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;dpp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spd&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;text&#39;</span><span class="p">:</span> <span class="s">&#39;lexgramm&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sort&#39;</span><span class="p">:</span> <span class="s">&#39;gr_tagging&#39;</span><span class="p">,</span>
+        <span class="s">&#39;lang&#39;</span><span class="p">:</span> <span class="s">&#39;en&#39;</span><span class="p">,</span>
+        <span class="s">&#39;parent1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;level1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;lex1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;gramm1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;flags1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem-mod1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem-mod2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;parent2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;level2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;min2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;max2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;lex2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;gramm2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;flags2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryMain object.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">RNCQueryMain</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search.xml?&quot;</span>
+</pre></div></div>
 
     </div>
       
