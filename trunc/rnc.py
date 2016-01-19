@@ -144,8 +144,24 @@ class RNCQueryGeneric(object):
         'mode': '',
         }
 
-    def __init__(self, **kwargs):
-        """Initialize the RNCQueryGeneric object."""
+    def __init__(self, url=None, **kwargs):
+        """Initialize the RNCQueryGeneric object.
+
+        The :class:`RNCQueryGeneric` class, as well as its subclasses
+        :class:`RNCQueryOld`, :class:`RNCQueryMid`, and :class:`RNCQueryMain`,
+        has a class variable ``DEFAULTS``. This is a dictionary in which each
+        key is a parameter and each value is the corresponding value of that
+        parameter.
+
+        At initialization, key-value pairs from this ``DEFAULTS`` dictionary
+        are used to populate the attributes of the instance with any
+        necessary parameters which were not specified explitictly.
+
+        :param kwargs: keyword arguments representing parameters and values
+
+        .. automethod:: __init__
+
+        """
         self.base_url = "http://search.ruscorpora.ru/search.xml?"
         if kwargs:
             for k, v in kwargs.iteritems():
@@ -156,6 +172,18 @@ class RNCQueryGeneric(object):
             a = getattr(self, k, None)
             if a is None:
                 setattr(self, k, v)
+        if url is not None:
+            self.parse_url(url)
+
+    def parse_url(self, url):
+        """Parse a supplied query URL to update instance attributes.
+
+        :param url: complete URL representing a query of the RNC
+        :type url: ``str``
+        """
+        url_halves = url.split('?')
+        base_url = url_halves[0] + '?'
+        key_value_pairs = url.halves[1]
 
     def url(self):
         """Return the url for a search of the Russian National Corpus.
