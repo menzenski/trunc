@@ -140,7 +140,7 @@
 <p>This module defines objects for interfacing with the Russian National Corpus.</p>
 <dl class="class">
 <dt id="trunc.rnc.RNCQueryGeneric">
-<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryGeneric</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryGeneric</code><span class="sig-paren">(</span><em>url=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic query of the Russian National Corpus.</p>
 <p>The <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryGeneric</span></code></a> class defines a generic query of the Russian
 National Corpus. The more specific queries <a class="reference internal" href="#trunc.rnc.RNCQueryOld" title="trunc.rnc.RNCQueryOld"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryOld</span></code></a>,
@@ -183,6 +183,20 @@ into hyphens by the class&#8217;s <a class="reference internal" href="#trunc.rnc
 <p>Note also that not all of the key-value pairs need to be called explicitly
 when a new object of the class is created. Many of them are defaults and
 will be supplied automatically.</p>
+<dl class="method">
+<dt id="trunc.rnc.RNCQueryGeneric.parse_url">
+<code class="descname">parse_url</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.parse_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.parse_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a supplied query URL to update instance attributes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>url</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; complete URL representing a query of the RNC</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="trunc.rnc.RNCQueryGeneric.url">
 <code class="descname">url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.url" title="Permalink to this definition">¶</a></dt>

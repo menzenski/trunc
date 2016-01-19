@@ -258,8 +258,24 @@
         <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryGeneric object.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryGeneric object.</span>
+
+<span class="sd">        The :class:`RNCQueryGeneric` class, as well as its subclasses</span>
+<span class="sd">        :class:`RNCQueryOld`, :class:`RNCQueryMid`, and :class:`RNCQueryMain`,</span>
+<span class="sd">        has a class variable ``DEFAULTS``. This is a dictionary in which each</span>
+<span class="sd">        key is a parameter and each value is the corresponding value of that</span>
+<span class="sd">        parameter.</span>
+
+<span class="sd">        At initialization, key-value pairs from this ``DEFAULTS`` dictionary</span>
+<span class="sd">        are used to populate the attributes of the instance with any</span>
+<span class="sd">        necessary parameters which were not specified explitictly.</span>
+
+<span class="sd">        :param kwargs: keyword arguments representing parameters and values</span>
+
+<span class="sd">        .. automethod:: __init__</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search.xml?&quot;</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
@@ -270,7 +286,19 @@
             <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
+<div class="viewcode-block" id="RNCQueryGeneric.parse_url"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.parse_url">[docs]</a>    <span class="k">def</span> <span class="nf">parse_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse a supplied query URL to update instance attributes.</span>
+
+<span class="sd">        :param url: complete URL representing a query of the RNC</span>
+<span class="sd">        :type url: ``str``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url_halves</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;?&#39;</span><span class="p">)</span>
+        <span class="n">base_url</span> <span class="o">=</span> <span class="n">url_halves</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;?&#39;</span>
+        <span class="n">key_value_pairs</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">halves</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</div>
 <div class="viewcode-block" id="RNCQueryGeneric.url"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the url for a search of the Russian National Corpus.</span>
 
