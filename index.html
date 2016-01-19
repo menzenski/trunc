@@ -141,7 +141,8 @@
 <dl class="class">
 <dt id="trunc.rnc.RNCQueryGeneric">
 <em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryGeneric</code><span class="sig-paren">(</span><em>url=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generic query of the Russian National Corpus.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Generic query of the Russian National Corpus.</p>
 <p>The <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryGeneric</span></code></a> class defines a generic query of the Russian
 National Corpus. The more specific queries <a class="reference internal" href="#trunc.rnc.RNCQueryOld" title="trunc.rnc.RNCQueryOld"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryOld</span></code></a>,
 <a class="reference internal" href="#trunc.rnc.RNCQueryMid" title="trunc.rnc.RNCQueryMid"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryMid</span></code></a>, and <a class="reference internal" href="#trunc.rnc.RNCQueryMain" title="trunc.rnc.RNCQueryMain"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryMain</span></code></a> all inherit from this
@@ -183,6 +184,33 @@ into hyphens by the class&#8217;s <a class="reference internal" href="#trunc.rnc
 <p>Note also that not all of the key-value pairs need to be called explicitly
 when a new object of the class is created. Many of them are defaults and
 will be supplied automatically.</p>
+<dl class="attribute">
+<dt id="trunc.rnc.RNCQueryGeneric.DEFAULTS">
+<code class="descname">DEFAULTS</code><em class="property"> = {'mode': ''}</em><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.DEFAULTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trunc.rnc.RNCQueryGeneric.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>url=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCQueryGeneric object.</p>
+<p>The <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryGeneric</span></code></a> class, as well as its subclasses
+<a class="reference internal" href="#trunc.rnc.RNCQueryOld" title="trunc.rnc.RNCQueryOld"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryOld</span></code></a>, <a class="reference internal" href="#trunc.rnc.RNCQueryMid" title="trunc.rnc.RNCQueryMid"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryMid</span></code></a>, and <a class="reference internal" href="#trunc.rnc.RNCQueryMain" title="trunc.rnc.RNCQueryMain"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryMain</span></code></a>,
+has a class variable <code class="docutils literal"><span class="pre">DEFAULTS</span></code>. This is a dictionary in which each
+key is a parameter and each value is the corresponding value of that
+parameter.</p>
+<p>At initialization, key-value pairs from this <code class="docutils literal"><span class="pre">DEFAULTS</span></code> dictionary
+are used to populate the attributes of the instance with any
+necessary parameters which were not specified explitictly.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> &#8211; keyword arguments representing parameters and values</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="trunc.rnc.RNCQueryGeneric.parse_url">
 <code class="descname">parse_url</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.parse_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.parse_url" title="Permalink to this definition">¶</a></dt>
@@ -216,25 +244,62 @@ will be supplied automatically.</p>
 <dl class="class">
 <dt id="trunc.rnc.RNCQueryMain">
 <em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryMain</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryMain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryMain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query of the Main subcorpus of the Russian National Corpus.</p>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCQueryGeneric</span></code></a></p>
+<p>Query of the Main subcorpus of the Russian National Corpus.</p>
+<dl class="attribute">
+<dt id="trunc.rnc.RNCQueryMain.DEFAULTS">
+<code class="descname">DEFAULTS</code><em class="property"> = {'spp': '', 'text': 'lexgramm', 'mysent': '', 'level1': 0, 'level2': 0, 'flags2': '', 'spd': '', 'flags1': '', 'mysize': '', 'sem-mod2': '', 'sem-mod1': '', 'sem2': '', 'sem1': '', 'mode': 'main', 'sort': 'gr_tagging', 'gramm1': '', 'gramm2': '', 'min2': 1, 'lang': 'en', 'lex1': '', 'dpp': '', 'max2': 1, 'lex2': '', 'mycorp': '', 'parent2': 0, 'parent1': 0}</em><a class="headerlink" href="#trunc.rnc.RNCQueryMain.DEFAULTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trunc.rnc.RNCQueryMain.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryMain.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryMain.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCQueryMain object.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="trunc.rnc.RNCQueryMid">
 <em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryMid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryMid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryMid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query of the Mid subcorpus of the Russian National Corpus.</p>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCQueryGeneric</span></code></a></p>
+<p>Query of the Mid subcorpus of the Russian National Corpus.</p>
+<dl class="attribute">
+<dt id="trunc.rnc.RNCQueryMid.DEFAULTS">
+<code class="descname">DEFAULTS</code><em class="property"> = {'sort': 'gr_created', 'req': '', 'mydocsize': '', 'spp': '', 'text': 'lexform', 'mysent': '', 'spd': '', 'lang': 'ru', 'mysize': '', 'mysentsize': '', 'dpp': '', 'mycorp': '', 'mode': 'mid_rus', 'env': 'alpha'}</em><a class="headerlink" href="#trunc.rnc.RNCQueryMid.DEFAULTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trunc.rnc.RNCQueryMid.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryMid.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryMid.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCQueryMid object.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="trunc.rnc.RNCQueryOld">
 <em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryOld</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryOld"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryOld" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query of the Old subcorpus of the Russian National Corpus.</p>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCQueryGeneric</span></code></a></p>
+<p>Query of the Old subcorpus of the Russian National Corpus.</p>
+<dl class="attribute">
+<dt id="trunc.rnc.RNCQueryOld.DEFAULTS">
+<code class="descname">DEFAULTS</code><em class="property"> = {'doc_docid': '0|13|2|3|1|4|7|8|10|12|5|11|9|6', 'gramm1': '', 'level1': 0, 'level2': 0, 'text1': 'lexgramm', 'min2': 1, 'lexi1': '', 'max2': 1, 'mode': 'old_rus', 'parent1': 0, 'parent2': 0}</em><a class="headerlink" href="#trunc.rnc.RNCQueryOld.DEFAULTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trunc.rnc.RNCQueryOld.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryOld.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryOld.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCQueryOld object.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="trunc.rnc.RNCSource">
 <em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCSource</code><span class="sig-paren">(</span><em>source_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>One source in RNC search results.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>One source in RNC search results.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -243,6 +308,12 @@ will be supplied automatically.</p>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="trunc.rnc.RNCSource.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>source_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCSource.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCSource.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCSource object.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="trunc.rnc.RNCSource.parse_dates">
 <code class="descname">parse_dates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCSource.parse_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCSource.parse_dates" title="Permalink to this definition">¶</a></dt>
@@ -340,7 +411,8 @@ preceding two numbers:</p>
 <dl class="class">
 <dt id="trunc.web.MyOpener">
 <em class="property">class </em><code class="descclassname">trunc.web.</code><code class="descname">MyOpener</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#MyOpener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.MyOpener" title="Permalink to this definition">¶</a></dt>
-<dd><p>A FancyURLopener object with a custom User-Agent field.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">urllib.FancyURLopener</span></code></p>
+<p>A FancyURLopener object with a custom User-Agent field.</p>
 <p>The <code class="docutils literal"><span class="pre">MyOpener.version</span></code> class attribute contains the User-Agent field.
 Use <code class="docutils literal"><span class="pre">MyOpener.set_version()</span></code> to change this attribute.</p>
 <dl class="method">
@@ -357,12 +429,37 @@ Use <code class="docutils literal"><span class="pre">MyOpener.set_version()</spa
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="trunc.web.MyOpener.version">
+<code class="descname">version</code><em class="property"> = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/600.5.17 (KHTML, like Gecko) Version/8.0.5 Safari/600.5.17'</em><a class="headerlink" href="#trunc.web.MyOpener.version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="trunc.web.Webpage">
 <em class="property">class </em><code class="descclassname">trunc.web.</code><code class="descname">Webpage</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generic webpage with attributes.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Generic webpage with attributes.</p>
+<dl class="method">
+<dt id="trunc.web.Webpage.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Webpage object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>address</strong> &#8211; url of the webpage</li>
+<li><strong>delay</strong> &#8211; ideal delay interval, in seconds, between page loads</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>(default is <code class="docutils literal"><span class="pre">1</span></code>)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="trunc.web.Webpage.html">
 <code class="descname">html</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.html" title="Permalink to this definition">¶</a></dt>

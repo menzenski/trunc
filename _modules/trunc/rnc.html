@@ -134,7 +134,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_name</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCSource.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCSource.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the RNCSource object.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source_name</span> <span class="o">=</span> <span class="n">source_name</span>
         <span class="c"># strip parentheses and their contents</span>
@@ -146,7 +146,7 @@
 
         <span class="c"># parse the source string to find the dates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parse_dates</span><span class="p">()</span>
-
+</div>
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a human-readable unicode representation of the RNCSource.</span>
 
@@ -258,7 +258,7 @@
         <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCQueryGeneric.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryGeneric object.</span>
 
 <span class="sd">        The :class:`RNCQueryGeneric` class, as well as its subclasses</span>
@@ -272,9 +272,6 @@
 <span class="sd">        necessary parameters which were not specified explitictly.</span>
 
 <span class="sd">        :param kwargs: keyword arguments representing parameters and values</span>
-
-<span class="sd">        .. automethod:: __init__</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search.xml?&quot;</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -288,7 +285,7 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parse_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-
+</div>
 <div class="viewcode-block" id="RNCQueryGeneric.parse_url"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.parse_url">[docs]</a>    <span class="k">def</span> <span class="nf">parse_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse a supplied query URL to update instance attributes.</span>
 
@@ -329,7 +326,7 @@
         <span class="s">&#39;max2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCQueryOld.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryOld.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryOld object.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
@@ -338,7 +335,7 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search-beta.ruscorpora.ru/search.xml?&quot;</span>
 
-</div>
+</div></div>
 <div class="viewcode-block" id="RNCQueryMid"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryMid">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryMid</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query of the Mid subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>
 
@@ -359,7 +356,7 @@
         <span class="s">&#39;req&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCQueryMid.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryMid.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryMid object.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">RNCQueryMid</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
@@ -368,7 +365,7 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search-beta.ruscorpora.ru/search.xml?&quot;</span>
 
-</div>
+</div></div>
 <div class="viewcode-block" id="RNCQueryMain"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryMain">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryMain</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query of the Main subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>
 
@@ -401,7 +398,7 @@
         <span class="s">&#39;flags2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCQueryMain.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryMain.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryMain object.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">RNCQueryMain</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
@@ -409,7 +406,7 @@
             <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search.xml?&quot;</span>
-</pre></div></div>
+</pre></div></div></div>
 
     </div>
       
