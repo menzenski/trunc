@@ -16,12 +16,19 @@ Contents:
 
 .. automodule:: trunc.rnc
    :members:
+   :undoc-members:
+   :special-members: __init__
+   :show-inheritance:
 
 .. automodule:: trunc.util
    :members:
+   :undoc-members:
 
 .. automodule:: trunc.web
    :members:
+   :undoc-members:
+   :special-members: __init__
+   :show-inheritance:
 
 Indices and tables
 ==================

@@ -158,9 +158,6 @@ class RNCQueryGeneric(object):
         necessary parameters which were not specified explitictly.
 
         :param kwargs: keyword arguments representing parameters and values
-
-        .. automethod:: __init__
-
         """
         self.base_url = "http://search.ruscorpora.ru/search.xml?"
         if kwargs:
