@@ -45,4 +45,25 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
             obj = unicode(obj, encoding)
     return obj
 
+def as_integer(s, delims=[' ']):
+    """Return an integer version of a string.
+
+    Integer values in the Russian National Corpus are separated by spaces
+    (e.g., '14 311' where an American might expect '14,311'). This function
+    strips those spaces and returns the integer value of the string.
+
+    :param s: the string to be converted
+    :type s: ``str``
+    :param delims: list of possible delimiters
+    :type delims: ``list``
+    :rtype: int
+    """
+    for d in delims:
+        s = s.replace(d, '')
+    try:
+        i = int(s)
+    except ValueError:
+        i = 0
+
+    return i
 

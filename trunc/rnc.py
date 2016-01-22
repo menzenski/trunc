@@ -10,7 +10,12 @@ This module defines objects for interfacing with the Russian National Corpus.
 
 from __future__ import absolute_import, print_function
 
+from bs4 import BeautifulSoup as Soup
 import re
+import urllib
+
+from .util import as_integer, to_unicode_or_bust
+from .web import Webpage
 
 class RNCSource(object):
     """One source in RNC search results.
@@ -191,9 +196,39 @@ class RNCQueryGeneric(object):
         for k, v in self.__dict__.iteritems():
             if k != 'base_url':
                 k = k.replace('_', '-')
+                if k == 'lex1':
+                    v = urllib.quote(to_unicode_or_bust(v).encode('utf-8'))
                 address += "{}={}&".format(k, v)
         return address
 
+    def documents_and_contexts(self, url=None):
+        """Return a 2-tuple representing the number of query results.
+
+        This method.
+
+            >>> b = RNCQueryMain(lex1="учитать")
+            >>> rb = b.documents_and_contexts()
+            >>> print(rb)
+            (3, 3)
+            >>> c = RNCQueryMain(lex1="читать")
+            >>> rc = c.documents_and_contexts()
+            >>> print(rc)
+            (14311, 89547)
+
+        :param url: address of the query to search for
+        :type url: ``str``
+        :returns: a tuple of two integers, of which the first represents the number of documents and the second represents the number of contexts (tokens)
+        :rtype: ``tuple``
+        """
+        if url is None:
+            url = self.url()
+        page = Webpage(url)
+        d_selector = "body > div.content > p.found > span:nth-of-type(1)"
+        c_selector = "body > div.content > p.found > span:nth-of-type(3)"
+        d = page.soup().select(d_selector)[0].text
+        c = page.soup().select(c_selector)[0].text
+
+        return (as_integer(d), as_integer(c))
 
 class RNCQueryOld(RNCQueryGeneric):
     """Query of the Old subcorpus of the Russian National Corpus."""
