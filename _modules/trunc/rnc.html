@@ -124,7 +124,12 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
 
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">Soup</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">as_integer</span><span class="p">,</span> <span class="n">to_unicode_or_bust</span>
+<span class="kn">from</span> <span class="nn">.web</span> <span class="kn">import</span> <span class="n">Webpage</span>
 
 <div class="viewcode-block" id="RNCSource"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCSource">[docs]</a><span class="k">class</span> <span class="nc">RNCSource</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;One source in RNC search results.</span>
@@ -305,9 +310,39 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s">&#39;base_url&#39;</span><span class="p">:</span>
                 <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s">&#39;lex1&#39;</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">to_unicode_or_bust</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
                 <span class="n">address</span> <span class="o">+=</span> <span class="s">&quot;{}={}&amp;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">address</span>
+</div>
+<div class="viewcode-block" id="RNCQueryGeneric.documents_and_contexts"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.documents_and_contexts">[docs]</a>    <span class="k">def</span> <span class="nf">documents_and_contexts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a 2-tuple representing the number of query results.</span>
 
+<span class="sd">        This method.</span>
+
+<span class="sd">            &gt;&gt;&gt; b = RNCQueryMain(lex1=&quot;учитать&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; rb = b.documents_and_contexts()</span>
+<span class="sd">            &gt;&gt;&gt; print(rb)</span>
+<span class="sd">            (3, 3)</span>
+<span class="sd">            &gt;&gt;&gt; c = RNCQueryMain(lex1=&quot;читать&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; rc = c.documents_and_contexts()</span>
+<span class="sd">            &gt;&gt;&gt; print(rc)</span>
+<span class="sd">            (14311, 89547)</span>
+
+<span class="sd">        :param url: address of the query to search for</span>
+<span class="sd">        :type url: ``str``</span>
+<span class="sd">        :returns: a tuple of two integers, of which the first represents the number of documents and the second represents the number of contexts (tokens)</span>
+<span class="sd">        :rtype: ``tuple``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">Webpage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">d_selector</span> <span class="o">=</span> <span class="s">&quot;body &gt; div.content &gt; p.found &gt; span:nth-of-type(1)&quot;</span>
+        <span class="n">c_selector</span> <span class="o">=</span> <span class="s">&quot;body &gt; div.content &gt; p.found &gt; span:nth-of-type(3)&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">d_selector</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">c_selector</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">as_integer</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">as_integer</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 </div></div>
 <div class="viewcode-block" id="RNCQueryOld"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryOld">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryOld</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query of the Old subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>

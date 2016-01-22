@@ -207,6 +207,35 @@ necessary parameters which were not specified explitictly.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="trunc.rnc.RNCQueryGeneric.documents_and_contexts">
+<code class="descname">documents_and_contexts</code><span class="sig-paren">(</span><em>url=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.documents_and_contexts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.documents_and_contexts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a 2-tuple representing the number of query results.</p>
+<p>This method.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">RNCQueryMain</span><span class="p">(</span><span class="n">lex1</span><span class="o">=</span><span class="s">&quot;учитать&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">documents_and_contexts</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span>
+<span class="go">(3, 3)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">RNCQueryMain</span><span class="p">(</span><span class="n">lex1</span><span class="o">=</span><span class="s">&quot;читать&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rc</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">documents_and_contexts</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">rc</span><span class="p">)</span>
+<span class="go">(14311, 89547)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>url</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; address of the query to search for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tuple of two integers, of which the first represents the number of documents and the second represents the number of contexts (tokens)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal"><span class="pre">tuple</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="trunc.rnc.RNCQueryGeneric.parse_url">
 <code class="descname">parse_url</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.parse_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.parse_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a supplied query URL to update instance attributes.</p>
@@ -337,6 +366,30 @@ happens frequently in the historical corpora:</p>
 <span class="target" id="module-trunc.util"></span><div class="section" id="trunc-util">
 <h2>trunc.util<a class="headerlink" href="#trunc-util" title="Permalink to this headline">¶</a></h2>
 <p>This module provides miscellaneous helpful utility functions.</p>
+<dl class="function">
+<dt id="trunc.util.as_integer">
+<code class="descclassname">trunc.util.</code><code class="descname">as_integer</code><span class="sig-paren">(</span><em>s, delims=[' ']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/util.html#as_integer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.util.as_integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an integer version of a string.</p>
+<p>Integer values in the Russian National Corpus are separated by spaces
+(e.g., &#8216;14 311&#8217; where an American might expect &#8216;14,311&#8217;). This function
+strips those spaces and returns the integer value of the string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the string to be converted</li>
+<li><strong>delims</strong> (<code class="docutils literal"><span class="pre">list</span></code>) &#8211; list of possible delimiters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="function">
 <dt id="trunc.util.fibonacci_number">
 <code class="descclassname">trunc.util.</code><code class="descname">fibonacci_number</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/util.html#fibonacci_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.util.fibonacci_number" title="Permalink to this definition">¶</a></dt>
