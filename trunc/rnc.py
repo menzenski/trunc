@@ -162,20 +162,23 @@ class RNCQueryGeneric(object):
         are used to populate the attributes of the instance with any
         necessary parameters which were not specified explitictly.
 
+        :param url: actual URL of a RNC search
+        :type url: ``str``
         :param kwargs: keyword arguments representing parameters and values
         """
         self.base_url = "http://search.ruscorpora.ru/search.xml?"
-        if kwargs:
-            for k, v in kwargs.iteritems():
+        if url is not None:
+            self.parse_url(url)
+        else:
+            if kwargs:
+                for k, v in kwargs.iteritems():
+                    a = getattr(self, k, None)
+                    if a is None:
+                        setattr(self, k, v)
+            for k, v in self.__class__.DEFAULTS.iteritems():
                 a = getattr(self, k, None)
                 if a is None:
                     setattr(self, k, v)
-        for k, v in self.__class__.DEFAULTS.iteritems():
-            a = getattr(self, k, None)
-            if a is None:
-                setattr(self, k, v)
-        if url is not None:
-            self.parse_url(url)
 
     def parse_url(self, url):
         """Parse a supplied query URL to update instance attributes.
@@ -183,9 +186,24 @@ class RNCQueryGeneric(object):
         :param url: complete URL representing a query of the RNC
         :type url: ``str``
         """
-        url_halves = url.split('?')
-        base_url = url_halves[0] + '?'
-        key_value_pairs = url.halves[1]
+        w = Webpage(url)
+        enc = w.soup().original_encoding
+        url_halves = url.split('?', 1)
+        params = url_halves[1].split('&')
+        for param in params:
+            kv = param.split('=')
+            k = kv[0].replace('-', '_')
+            v = kv[1]
+            if '%' in v:
+                v = urllib.unquote(v).decode(enc)
+                v = to_unicode_or_bust(v)
+            elif v.isdigit():
+                v = as_integer(v)
+
+            setattr(self, k, v)
+
+        self.base_url = url_halves[0] + '?'
+
 
     def url(self):
         """Return the url for a search of the Russian National Corpus.
@@ -311,8 +329,8 @@ class RNCQueryMain(RNCQueryGeneric):
         'flags2': '',
         }
 
-    def __init__(self, **kwargs):
+    def __init__(self, url=None, **kwargs):
         """Initialize the RNCQueryMain object."""
-        super(self.__class__, self).__init__(**kwargs)
         self.base_url = "http://search.ruscorpora.ru/search.xml?"
+        super(self.__class__, self).__init__(url=url, **kwargs)
 
