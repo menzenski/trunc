@@ -1,6 +1,9 @@
 # swap files
 *.swp
 
+# old files
+fabfile.py
+
 # output files
 *.json
 *.xml
