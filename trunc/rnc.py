@@ -250,10 +250,6 @@ class RNCQueryOld(RNCQueryGeneric):
     def __init__(self, **kwargs):
         """Initialize the RNCQueryOld object."""
         super(self.__class__, self).__init__(**kwargs)
-        for k, v in self.__class__.DEFAULTS.iteritems():
-            a = getattr(self, k, None)
-            if a is None:
-                setattr(self, k, v)
         self.base_url = "http://search-beta.ruscorpora.ru/search.xml?"
 
 
@@ -280,10 +276,6 @@ class RNCQueryMid(RNCQueryGeneric):
     def __init__(self, **kwargs):
         """Initialize the RNCQueryMid object."""
         super(self.__class__, self).__init__(**kwargs)
-        for k, v in RNCQueryMid.DEFAULTS.iteritems():
-            a = getattr(self, k, None)
-            if a is None:
-                setattr(self, k, v)
         self.base_url = "http://search-beta.ruscorpora.ru/search.xml?"
 
 
@@ -322,9 +314,5 @@ class RNCQueryMain(RNCQueryGeneric):
     def __init__(self, **kwargs):
         """Initialize the RNCQueryMain object."""
         super(self.__class__, self).__init__(**kwargs)
-        for k, v in RNCQueryMain.DEFAULTS.iteritems():
-            a = getattr(self, k, None)
-            if a is None:
-                setattr(self, k, v)
         self.base_url = "http://search.ruscorpora.ru/search.xml?"
 
