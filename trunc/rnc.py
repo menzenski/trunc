@@ -10,10 +10,9 @@ This module defines classes for interfacing with the Russian National Corpus.
 Those classes fall broadly into two types: *queries* and *elements*.
 
 * Queries are derived from the :class:`RNCQueryGeneric` class and describe
-a particular seach of one corpus.
-
+  a particular seach of one corpus.
 * Elements are derived from the :class:`RNCElementGeneric` class and each
-describe a level in the hierarchy of units which result from a query.
+  describe a level in the hierarchy of units which result from a query.
 
 """
 
