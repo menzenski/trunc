@@ -38,7 +38,7 @@ class RNCSource(object):
         self.source_name = source_name
         # strip parentheses and their contents
         self.bare_name = re.sub(r'\([^)]*\)', '', self.source_name)
-        # assign some default values to dates
+       # assign some default values to dates
         self.date_begin = 0.0
         self.date_middle = 0.0
         self.date_end = 0.0
@@ -264,6 +264,7 @@ class RNCQueryGeneric(object):
 
         return (as_integer(d), as_integer(c))
 
+
 class RNCQueryOld(RNCQueryGeneric):
     """Query of the Old subcorpus of the Russian National Corpus."""
 
@@ -351,8 +352,52 @@ class RNCQueryMain(RNCQueryGeneric):
         super(self.__class__, self).__init__(url=url, **kwargs)
 
 
+class RNCResultGeneric(object):
+    """Generic element in the results of a query of the RNC."""
 
-class RNCElementGeneric(object):
+    def __init__(self, **kwargs):
+        """Initialize the RNCResultGeneric object."""
+        if kwargs:
+            if 'root' in kwargs:
+                root = kwargs['root']
+                tags = ["<class 'bs4.element.Tag'>",
+                        "<class 'bs4.BeautifulSoup'>"]
+                if str(type(root)) not in tags:
+                    self.root = soup(root)
+                else:
+                    self.root = root
+            if 'url' in kwargs:
+                url = kwargs['url']
+                self.root = Webpage(url).soup()
 
-    def __init__(self):
+
+class RNCResultPage(RNCResultGeneric):
+    """One page in RNC search results."""
+
+    def __init__(self, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+
+    def page_result_list(self):
+        return self.root.find(
+                'p', class_='pager').find_next_sibling('ol').contents
+
+    def __iter__(self):
+        return iter(self.page_result_list())
+
+    def __getitem__(self, idx):
+        return self.page_result_list()[idx]
+
+    def __len__(self):
+        return len(self.page_result_list())
+
+
+class RNCResultContext(RNCResultGeneric):
+    """One entry in a RNCResultsPage.page_results_list list."""
+
+    def __init__(self, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+
+        self.source = RNCSource(self.root.contents[0].string)
+
+    def words(self):
         pass
