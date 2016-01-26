@@ -391,13 +391,40 @@ class RNCResultPage(RNCResultGeneric):
         return len(self.page_result_list())
 
 
-class RNCResultContext(RNCResultGeneric):
-    """One entry in a RNCResultsPage.page_results_list list."""
+class RNCResultSource(RNCResultGeneric):
+    """One source's entry in a RNCResultPage.page_result_list list."""
 
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
 
         self.source = RNCSource(self.root.contents[0].string)
 
-    def words(self):
-        pass
+    def context_list(self):
+        return list(self.root.contents[5].tr.td.ul.find_all('li'))
+
+    def __iter__(self):
+        return iter(self.context_list())
+
+    def __getitem__(self, idx):
+        return self.context_list()[idx]
+
+    def __len__(self):
+        return len(self.context_list())
+
+class RNCResultContext(RNCResultGeneric):
+    """An individual context in a RNCResultSource.context_list list."""
+
+    def __init__(self, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+
+    def word_list(self):
+        return []
+
+    def __iter__(self):
+        return iter(self.word_list())
+
+    def __getitem__(self, idx):
+        return self.word_list()[idx]
+
+    def __len__(self):
+        return len(self.word_list())
