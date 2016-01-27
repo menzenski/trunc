@@ -9,6 +9,7 @@ This module provides classes for accessing web pages."""
 
 from __future__ import absolute_import, print_function
 
+import codecs
 import time
 
 from bs4 import BeautifulSoup as Soup
@@ -38,18 +39,20 @@ class MyOpener(FancyURLopener):
 class Webpage(object):
     """Generic webpage with attributes."""
 
-    def __init__(self, address, delay=1):
+    def __init__(self, address, delay=1, encoding='windows-1251'):
         """Initialize the Webpage object.
 
         :param address: url of the webpage
         :param delay: ideal delay interval, in seconds, between page loads
         (default is ``1``)
+        :param encoding: encoding of the webpage
         """
         self.address = address
         self.opener = MyOpener()
         self.delay = delay
+        self.encoding = encoding
 
-    def open(self):
+    def page(self):
         """Open the webpage.
 
         If there's an error opening the page (i.e., if the Corpus throttles
@@ -73,9 +76,11 @@ class Webpage(object):
 
         return self.page
 
-    def html(self):
+    def html(self, encoding=None):
         """Return contents of the Webpage as html."""
-        return self.open().read()
+        if encoding is None:
+            encoding = self.encoding
+        return self.page().read().decode()
 
     def soup(self):
         """Return contents of the Webpage as a BeautifulSoup object."""
