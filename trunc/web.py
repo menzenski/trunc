@@ -80,7 +80,7 @@ class Webpage(object):
         """Return contents of the Webpage as html."""
         if encoding is None:
             encoding = self.encoding
-        return self.page().read().decode()
+        return self.page().read().decode(encoding)
 
     def soup(self):
         """Return contents of the Webpage as a BeautifulSoup object."""
