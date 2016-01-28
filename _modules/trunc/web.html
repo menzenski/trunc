@@ -181,14 +181,14 @@
         <span class="k">while</span> <span class="n">page_not_loaded</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opener</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">page_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opener</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
                 <span class="n">page_not_loaded</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">IOError: {}</span><span class="se">\n</span><span class="s">at {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">))</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">fibonacci_number</span><span class="p">(</span><span class="n">attempt</span><span class="p">))</span>
                 <span class="n">attempt</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_instance</span>
 </div>
 <div class="viewcode-block" id="Webpage.html"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.html">[docs]</a>    <span class="k">def</span> <span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return contents of the Webpage as html.&quot;&quot;&quot;</span>
