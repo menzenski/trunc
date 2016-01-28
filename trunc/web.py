@@ -67,14 +67,14 @@ class Webpage(object):
         while page_not_loaded:
             try:
                 time.sleep(self.delay)
-                self.page = self.opener.open(self.address)
+                self.page_instance = self.opener.open(self.address)
                 page_not_loaded = False
             except IOError as e:
                 print("\nIOError: {}\nat {}".format(e, self.address))
                 time.sleep(fibonacci_number(attempt))
                 attempt += 1
 
-        return self.page
+        return self.page_instance
 
     def html(self, encoding=None):
         """Return contents of the Webpage as html."""

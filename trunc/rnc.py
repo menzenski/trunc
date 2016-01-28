@@ -212,9 +212,7 @@ class RNCQueryGeneric(object):
             k = kv[0].replace('-', '_')
             v = kv[1]
             if '%' in v:
-                #v = urllib.unquote(v).decode(enc)
                 v = urllib.unquote(v).decode('windows-1251')
-                print(u'{}'.format(v))
                 v = to_unicode_or_bust(v)
             elif v.isdigit():
                 v = as_integer(v)
@@ -223,7 +221,7 @@ class RNCQueryGeneric(object):
             if k != 'p':
                 setattr(self, k, v)
 
-        self.base_url = url_halves[0] + '?'
+        self.base_url = url_halves[0] + u'?'
 
 
     def url(self):
