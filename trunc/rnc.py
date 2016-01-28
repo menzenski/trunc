@@ -10,7 +10,7 @@ This module defines classes for interfacing with the Russian National Corpus.
 Those classes fall broadly into two types: *queries* and *elements*.
 
 * Queries are derived from the :class:`RNCQueryGeneric` class and describe
-  a particular seach of one corpus.
+
 * Elements are derived from the :class:`RNCElementGeneric` class and each
   describe a level in the hierarchy of units which result from a query.
 
@@ -21,6 +21,7 @@ from __future__ import absolute_import, print_function
 from bs4 import BeautifulSoup as Soup
 import re
 import urllib
+import urlparse
 
 from .util import as_integer, to_unicode_or_bust
 from .web import Webpage
@@ -181,11 +182,13 @@ class RNCQueryGeneric(object):
             if kwargs:
                 for k, v in kwargs.iteritems():
                     a = getattr(self, k, None)
+                    v = to_unicode_or_bust(v)
                     if a is None:
                         setattr(self, k, v)
             for k, v in self.__class__.DEFAULTS.iteritems():
                 a = getattr(self, k, None)
                 if a is None:
+                    v = to_unicode_or_bust(v)
                     setattr(self, k, v)
 
     def parse_url(self, url):
@@ -201,7 +204,7 @@ class RNCQueryGeneric(object):
         :type url: ``str``
         """
         w = Webpage(url)
-        enc = w.soup().original_encoding
+        # enc = w.soup().original_encoding
         url_halves = url.split('?', 1)
         params = url_halves[1].split('&')
         for param in params:
@@ -209,7 +212,9 @@ class RNCQueryGeneric(object):
             k = kv[0].replace('-', '_')
             v = kv[1]
             if '%' in v:
-                v = urllib.unquote(v).decode(enc)
+                #v = urllib.unquote(v).decode(enc)
+                v = urllib.unquote(v).decode('windows-1251')
+                print(u'{}'.format(v))
                 v = to_unicode_or_bust(v)
             elif v.isdigit():
                 v = as_integer(v)
@@ -238,7 +243,9 @@ class RNCQueryGeneric(object):
     def documents_and_contexts(self, url=None):
         """Return a 2-tuple representing the number of query results.
 
-        This method.
+        This method returns the number of documents and contexts for a given
+        search query: a **document** is a source which may contain multiple
+        usage tokens, while a **context** is a single token.
 
             >>> b = RNCQueryMain(lex1="учитать")
             >>> rb = b.documents_and_contexts()
@@ -263,6 +270,59 @@ class RNCQueryGeneric(object):
         c = page.soup().select(c_selector)[0].text
 
         return (as_integer(d), as_integer(c))
+
+    def __cmp__(self, other):
+        """Use the number of contexts when comparing objects."""
+        return self.documents_and_contexts()[1] == other
+
+
+class RNCQueryLookup(RNCQueryGeneric):
+    """Lookup query for retrieving grammatical and semantic information."""
+
+    DEFAULTS = {
+        'mycorp': '',
+        'mysent': '',
+        'mysize': '',
+        'dpp': '',
+        'spp': '',
+        'spd': '',
+        'mode': 'main',
+        'sort': 'gr_tagging',
+        'lang': 'en',
+        'parent1': 0,
+        'level1': 0,
+        'lex1': '',
+        'gramm1': '',
+        'sem1': '',
+        'flags1': '',
+        'sem_mod1': 'sem',
+        'sem_mod2': 'sem2',
+        'parent2': 0,
+        'level2': 0,
+        'min2': 1,
+        'max2': 1,
+        'lex2': '',
+        'gramm2': '',
+        'sem2': '',
+        'flags2': '',
+        'text': 'word-info',
+        'language': 'ru',
+        'source': '',
+        }
+
+    def __init__(self, **kwargs):
+        """Initialize the RNCQueryLookup object."""
+        super(self.__class__, self).__init__(**kwargs)
+        self.base_url = "http://search.ruscorpora.ru/search-explain.xml?"
+
+    def lookup_lemma(self):
+        pass
+
+    def lookup_grammar(self):
+        pass
+
+    def lookup_properties(self):
+        pass
 
 
 class RNCQueryOld(RNCQueryGeneric):
@@ -370,6 +430,52 @@ class RNCResultGeneric(object):
                 url = kwargs['url']
                 self.root = Webpage(url).soup()
 
+    def iterable(self):
+        """This method returns an iterable object.
+
+        Here it returns an empty list, but the subclasses of
+        :class:`RNCResultGeneric` each override this method with one more
+        specific.
+
+        The special methods :function:`__iter__()`,
+        :function:`__getitem__()`, and :function:`__len__()` are each
+        defined in terms of this basic iterable.
+        """
+        return []
+
+    def __iter__(self):
+        return iter(self.iterable())
+
+    def __getitem__(self, idx):
+        return self.iterable()[idx]
+
+    def __len__(self):
+        return len(self.iterable())
+
+
+class RNCResultPageSet(RNCResultGeneric):
+    """All pages in RNC search results."""
+
+    def __init__(self, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+
+        if 'url' in kwargs:
+            self.url = kwargs['url']
+            try:
+                d = urlparse.parse_qs(kwargs['url'])
+                self.p = int(d['p'][0])
+            except KeyError:
+                self.p = 0
+
+    def pages(self):
+        """Return urls for the pages in the search."""
+        try:
+            pass
+            ## TODO: flesh out this method
+            #yield RNCResultPage(url=url)
+        except:
+            return
+
 
 class RNCResultPage(RNCResultGeneric):
     """One page in RNC search results."""
@@ -377,54 +483,49 @@ class RNCResultPage(RNCResultGeneric):
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
 
-    def page_result_list(self):
+    def iterable(self):
         return self.root.find(
                 'p', class_='pager').find_next_sibling('ol').contents
 
-    def __iter__(self):
-        return iter(self.page_result_list())
-
-    def __getitem__(self, idx):
-        return self.page_result_list()[idx]
-
-    def __len__(self):
-        return len(self.page_result_list())
-
 
 class RNCResultSource(RNCResultGeneric):
-    """One source's entry in a RNCResultPage.page_result_list list."""
+    """One source's entry in a RNCResultPage.iterable list."""
 
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
 
         self.source = RNCSource(self.root.contents[0].string)
 
-    def context_list(self):
+    def iterable(self):
         return list(self.root.contents[5].tr.td.ul.find_all('li'))
 
-    def __iter__(self):
-        return iter(self.context_list())
-
-    def __getitem__(self, idx):
-        return self.context_list()[idx]
-
-    def __len__(self):
-        return len(self.context_list())
 
 class RNCResultContext(RNCResultGeneric):
-    """An individual context in a RNCResultSource.context_list list."""
+    """An individual context in a RNCResultSource.iterable list."""
 
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
 
-    def word_list(self):
+    def iterable(self):
         return []
 
-    def __iter__(self):
-        return iter(self.word_list())
 
-    def __getitem__(self, idx):
-        return self.word_list()[idx]
+class RNCResultWord(RNCResultGeneric):
+    """An individual word in a RNCResultContext.iterable list."""
 
-    def __len__(self):
-        return len(self.word_list())
+    def __init__(self, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+        self.classes = self.root.get('class').split(' ')
+        self.explain = self.root.get('explain')
+        self.text = self.root.string
+
+
+class RNCResultLookup(RNCResultGeneric):
+    """'Pop-up' page with grammatical/semantic information about a word."""
+
+    def __init__(self, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+
+    def iterable(self):
+        """Return the rows of the table."""
+        pass
