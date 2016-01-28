@@ -140,8 +140,7 @@
 <p>This module defines classes for interfacing with the Russian National Corpus.</p>
 <p>Those classes fall broadly into two types: <em>queries</em> and <em>elements</em>.</p>
 <ul class="simple">
-<li>Queries are derived from the <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryGeneric</span></code></a> class and describe
-a particular seach of one corpus.</li>
+<li>Queries are derived from the <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">RNCQueryGeneric</span></code></a> class and describe</li>
 <li>Elements are derived from the <code class="xref py py-class docutils literal"><span class="pre">RNCElementGeneric</span></code> class and each
 describe a level in the hierarchy of units which result from a query.</li>
 </ul>
@@ -221,7 +220,9 @@ necessary parameters which were not specified explitictly.</p>
 <dt id="trunc.rnc.RNCQueryGeneric.documents_and_contexts">
 <code class="descname">documents_and_contexts</code><span class="sig-paren">(</span><em>url=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryGeneric.documents_and_contexts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryGeneric.documents_and_contexts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a 2-tuple representing the number of query results.</p>
-<p>This method.</p>
+<p>This method returns the number of documents and contexts for a given
+search query: a <strong>document</strong> is a source which may contain multiple
+usage tokens, while a <strong>context</strong> is a single token.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">RNCQueryMain</span><span class="p">(</span><span class="n">lex1</span><span class="o">=</span><span class="s">&quot;учитать&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">documents_and_contexts</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span>
@@ -282,6 +283,19 @@ rather than typed out parameter by parameter.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="trunc.rnc.RNCQueryLookup">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryLookup</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryLookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryLookup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCQueryGeneric</span></code></a></p>
+<p>Lookup query for retrieving grammatical and semantic information.</p>
+<dl class="method">
+<dt id="trunc.rnc.RNCQueryLookup.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryLookup.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryLookup.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCQueryLookup object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="trunc.rnc.RNCQueryMain">
 <em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCQueryMain</code><span class="sig-paren">(</span><em>url=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCQueryMain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCQueryMain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCQueryGeneric" title="trunc.rnc.RNCQueryGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCQueryGeneric</span></code></a></p>
@@ -318,6 +332,85 @@ rather than typed out parameter by parameter.</p>
 <dd><p>Initialize the RNCQueryOld object.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultContext">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultContext</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCResultGeneric</span></code></a></p>
+<p>An individual context in a RNCResultSource.iterable list.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultGeneric">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultGeneric</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultGeneric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Generic element in the results of a query of the RNC.</p>
+<dl class="method">
+<dt id="trunc.rnc.RNCResultGeneric.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultGeneric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultGeneric.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the RNCResultGeneric object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="trunc.rnc.RNCResultGeneric.iterable">
+<code class="descname">iterable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultGeneric.iterable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultGeneric.iterable" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns an iterable object.</p>
+<p>Here it returns an empty list, but the subclasses of
+<a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">RNCResultGeneric</span></code></a> each override this method with one more
+specific.</p>
+<p>The special methods <a href="#id1"><span class="problematic" id="id2">:function:`__iter__()`</span></a>,
+<a href="#id3"><span class="problematic" id="id4">:function:`__getitem__()`</span></a>, and <a href="#id5"><span class="problematic" id="id6">:function:`__len__()`</span></a> are each
+defined in terms of this basic iterable.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultLookup">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultLookup</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultLookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultLookup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCResultGeneric</span></code></a></p>
+<p>&#8216;Pop-up&#8217; page with grammatical/semantic information about a word.</p>
+<dl class="method">
+<dt id="trunc.rnc.RNCResultLookup.iterable">
+<code class="descname">iterable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultLookup.iterable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultLookup.iterable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the rows of the table.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultPage">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultPage</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultPage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCResultGeneric</span></code></a></p>
+<p>One page in RNC search results.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultPageSet">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultPageSet</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultPageSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultPageSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCResultGeneric</span></code></a></p>
+<p>All pages in RNC search results.</p>
+<dl class="method">
+<dt id="trunc.rnc.RNCResultPageSet.pages">
+<code class="descname">pages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultPageSet.pages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultPageSet.pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return urls for the pages in the search.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultSource">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCResultGeneric</span></code></a></p>
+<p>One source&#8217;s entry in a RNCResultPage.iterable list.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="trunc.rnc.RNCResultWord">
+<em class="property">class </em><code class="descclassname">trunc.rnc.</code><code class="descname">RNCResultWord</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/rnc.html#RNCResultWord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.rnc.RNCResultWord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#trunc.rnc.RNCResultGeneric" title="trunc.rnc.RNCResultGeneric"><code class="xref py py-class docutils literal"><span class="pre">trunc.rnc.RNCResultGeneric</span></code></a></p>
+<p>An individual word in a RNCResultContext.iterable list.</p>
 </dd></dl>
 
 <dl class="class">
@@ -482,12 +575,12 @@ Use <code class="docutils literal"><span class="pre">MyOpener.set_version()</spa
 
 <dl class="class">
 <dt id="trunc.web.Webpage">
-<em class="property">class </em><code class="descclassname">trunc.web.</code><code class="descname">Webpage</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">trunc.web.</code><code class="descname">Webpage</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em>, <em>encoding='windows-1251'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Generic webpage with attributes.</p>
 <dl class="method">
 <dt id="trunc.web.Webpage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>address</em>, <em>delay=1</em>, <em>encoding='windows-1251'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the Webpage object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -501,18 +594,19 @@ Use <code class="docutils literal"><span class="pre">MyOpener.set_version()</spa
 </tr>
 </tbody>
 </table>
-<p>(default is <code class="docutils literal"><span class="pre">1</span></code>)</p>
+<p>(default is <code class="docutils literal"><span class="pre">1</span></code>)
+:param encoding: encoding of the webpage</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="trunc.web.Webpage.html">
-<code class="descname">html</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.html" title="Permalink to this definition">¶</a></dt>
+<code class="descname">html</code><span class="sig-paren">(</span><em>encoding=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.html" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return contents of the Webpage as html.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="trunc.web.Webpage.open">
-<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.open" title="Permalink to this definition">¶</a></dt>
+<dt id="trunc.web.Webpage.page">
+<code class="descname">page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trunc/web.html#Webpage.page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trunc.web.Webpage.page" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the webpage.</p>
 <p>If there&#8217;s an error opening the page (i.e., if the Corpus throttles
 the scraper), wait and retry in successively longer intervals (which

@@ -124,7 +124,7 @@
 <span class="sd">Those classes fall broadly into two types: *queries* and *elements*.</span>
 
 <span class="sd">* Queries are derived from the :class:`RNCQueryGeneric` class and describe</span>
-<span class="sd">  a particular seach of one corpus.</span>
+
 <span class="sd">* Elements are derived from the :class:`RNCElementGeneric` class and each</span>
 <span class="sd">  describe a level in the hierarchy of units which result from a query.</span>
 
@@ -135,6 +135,7 @@
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">Soup</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urlparse</span>
 
 <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">as_integer</span><span class="p">,</span> <span class="n">to_unicode_or_bust</span>
 <span class="kn">from</span> <span class="nn">.web</span> <span class="kn">import</span> <span class="n">Webpage</span>
@@ -152,7 +153,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">source_name</span> <span class="o">=</span> <span class="n">source_name</span>
         <span class="c"># strip parentheses and their contents</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bare_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\([^)]*\)&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_name</span><span class="p">)</span>
-        <span class="c"># assign some default values to dates</span>
+       <span class="c"># assign some default values to dates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_begin</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_middle</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_end</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -295,11 +296,13 @@
             <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
                     <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">to_unicode_or_bust</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">DEFAULTS</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
                 <span class="n">a</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">to_unicode_or_bust</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                     <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="RNCQueryGeneric.parse_url"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.parse_url">[docs]</a>    <span class="k">def</span> <span class="nf">parse_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
@@ -315,7 +318,7 @@
 <span class="sd">        :type url: ``str``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">Webpage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">enc</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span><span class="o">.</span><span class="n">original_encoding</span>
+        <span class="c"># enc = w.soup().original_encoding</span>
         <span class="n">url_halves</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">url_halves</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;&amp;&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
@@ -323,7 +326,9 @@
             <span class="n">k</span> <span class="o">=</span> <span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="s">&#39;%&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">enc</span><span class="p">)</span>
+                <span class="c">#v = urllib.unquote(v).decode(enc)</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;windows-1251&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">u&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">to_unicode_or_bust</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">v</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">as_integer</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -352,7 +357,9 @@
 <div class="viewcode-block" id="RNCQueryGeneric.documents_and_contexts"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryGeneric.documents_and_contexts">[docs]</a>    <span class="k">def</span> <span class="nf">documents_and_contexts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a 2-tuple representing the number of query results.</span>
 
-<span class="sd">        This method.</span>
+<span class="sd">        This method returns the number of documents and contexts for a given</span>
+<span class="sd">        search query: a **document** is a source which may contain multiple</span>
+<span class="sd">        usage tokens, while a **context** is a single token.</span>
 
 <span class="sd">            &gt;&gt;&gt; b = RNCQueryMain(lex1=&quot;учитать&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; rb = b.documents_and_contexts()</span>
@@ -377,7 +384,61 @@
         <span class="n">c</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">c_selector</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">as_integer</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">as_integer</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-</div></div>
+</div>
+    <span class="k">def</span> <span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Use the number of contexts when comparing objects.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">documents_and_contexts</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span>
+
+</div>
+<div class="viewcode-block" id="RNCQueryLookup"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryLookup">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryLookup</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lookup query for retrieving grammatical and semantic information.&quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;mycorp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysent&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mysize&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;dpp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spp&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spd&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sort&#39;</span><span class="p">:</span> <span class="s">&#39;gr_tagging&#39;</span><span class="p">,</span>
+        <span class="s">&#39;lang&#39;</span><span class="p">:</span> <span class="s">&#39;en&#39;</span><span class="p">,</span>
+        <span class="s">&#39;parent1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;level1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;lex1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;gramm1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;flags1&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem_mod1&#39;</span><span class="p">:</span> <span class="s">&#39;sem&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem_mod2&#39;</span><span class="p">:</span> <span class="s">&#39;sem2&#39;</span><span class="p">,</span>
+        <span class="s">&#39;parent2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;level2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s">&#39;min2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;max2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;lex2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;gramm2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;sem2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;flags2&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;text&#39;</span><span class="p">:</span> <span class="s">&#39;word-info&#39;</span><span class="p">,</span>
+        <span class="s">&#39;language&#39;</span><span class="p">:</span> <span class="s">&#39;ru&#39;</span><span class="p">,</span>
+        <span class="s">&#39;source&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="RNCQueryLookup.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryLookup.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCQueryLookup object.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search-explain.xml?&quot;</span>
+</div>
+    <span class="k">def</span> <span class="nf">lookup_lemma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">lookup_grammar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">lookup_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+</div>
 <div class="viewcode-block" id="RNCQueryOld"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCQueryOld">[docs]</a><span class="k">class</span> <span class="nc">RNCQueryOld</span><span class="p">(</span><span class="n">RNCQueryGeneric</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query of the Old subcorpus of the Russian National Corpus.&quot;&quot;&quot;</span>
 
@@ -464,12 +525,124 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s">&quot;http://search.ruscorpora.ru/search.xml?&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+</div></div>
+<div class="viewcode-block" id="RNCResultGeneric"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultGeneric">[docs]</a><span class="k">class</span> <span class="nc">RNCResultGeneric</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic element in the results of a query of the RNC.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RNCResultGeneric.__init__"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultGeneric.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the RNCResultGeneric object.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s">&#39;root&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;root&#39;</span><span class="p">]</span>
+                <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;&lt;class &#39;bs4.element.Tag&#39;&gt;&quot;</span><span class="p">,</span>
+                        <span class="s">&quot;&lt;class &#39;bs4.BeautifulSoup&#39;&gt;&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">root</span><span class="p">))</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">soup</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+            <span class="k">if</span> <span class="s">&#39;url&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">Webpage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="RNCResultGeneric.iterable"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultGeneric.iterable">[docs]</a>    <span class="k">def</span> <span class="nf">iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns an iterable object.</span>
+
+<span class="sd">        Here it returns an empty list, but the subclasses of</span>
+<span class="sd">        :class:`RNCResultGeneric` each override this method with one more</span>
+<span class="sd">        specific.</span>
+
+<span class="sd">        The special methods :function:`__iter__()`,</span>
+<span class="sd">        :function:`__getitem__()`, and :function:`__len__()` are each</span>
+<span class="sd">        defined in terms of this basic iterable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+</div>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="p">()[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="RNCResultPageSet"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultPageSet">[docs]</a><span class="k">class</span> <span class="nc">RNCResultPageSet</span><span class="p">(</span><span class="n">RNCResultGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;All pages in RNC search results.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s">&#39;url&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;p&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="RNCResultPageSet.pages"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultPageSet.pages">[docs]</a>    <span class="k">def</span> <span class="nf">pages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return urls for the pages in the search.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">pass</span>
+            <span class="c">## TODO: flesh out this method</span>
+            <span class="c">#yield RNCResultPage(url=url)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span>
 
 </div></div>
-<span class="k">class</span> <span class="nc">RNCElementGeneric</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RNCResultPage"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultPage">[docs]</a><span class="k">class</span> <span class="nc">RNCResultPage</span><span class="p">(</span><span class="n">RNCResultGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;One page in RNC search results.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+                <span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">&#39;pager&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_next_sibling</span><span class="p">(</span><span class="s">&#39;ol&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contents</span>
+
+</div>
+<div class="viewcode-block" id="RNCResultSource"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultSource">[docs]</a><span class="k">class</span> <span class="nc">RNCResultSource</span><span class="p">(</span><span class="n">RNCResultGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;One source&#39;s entry in a RNCResultPage.iterable list.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">RNCSource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">tr</span><span class="o">.</span><span class="n">td</span><span class="o">.</span><span class="n">ul</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;li&#39;</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="RNCResultContext"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultContext">[docs]</a><span class="k">class</span> <span class="nc">RNCResultContext</span><span class="p">(</span><span class="n">RNCResultGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An individual context in a RNCResultSource.iterable list.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+</div>
+<div class="viewcode-block" id="RNCResultWord"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultWord">[docs]</a><span class="k">class</span> <span class="nc">RNCResultWord</span><span class="p">(</span><span class="n">RNCResultGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An individual word in a RNCResultContext.iterable list.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;explain&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">string</span>
+
+</div>
+<div class="viewcode-block" id="RNCResultLookup"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultLookup">[docs]</a><span class="k">class</span> <span class="nc">RNCResultLookup</span><span class="p">(</span><span class="n">RNCResultGeneric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;&#39;Pop-up&#39; page with grammatical/semantic information about a word.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RNCResultLookup.iterable"><a class="viewcode-back" href="../../index.html#trunc.rnc.RNCResultLookup.iterable">[docs]</a>    <span class="k">def</span> <span class="nf">iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the rows of the table.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
 </pre></div>
 
     </div>

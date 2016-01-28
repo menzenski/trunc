@@ -123,6 +123,7 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
 
+<span class="kn">import</span> <span class="nn">codecs</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">Soup</span>
@@ -152,18 +153,20 @@
 <div class="viewcode-block" id="Webpage"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage">[docs]</a><span class="k">class</span> <span class="nc">Webpage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic webpage with attributes.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Webpage.__init__"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="Webpage.__init__"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;windows-1251&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the Webpage object.</span>
 
 <span class="sd">        :param address: url of the webpage</span>
 <span class="sd">        :param delay: ideal delay interval, in seconds, between page loads</span>
 <span class="sd">        (default is ``1``)</span>
+<span class="sd">        :param encoding: encoding of the webpage</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">address</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opener</span> <span class="o">=</span> <span class="n">MyOpener</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
 </div>
-<div class="viewcode-block" id="Webpage.open"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Webpage.page"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.page">[docs]</a>    <span class="k">def</span> <span class="nf">page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Open the webpage.</span>
 
 <span class="sd">        If there&#39;s an error opening the page (i.e., if the Corpus throttles</span>
@@ -187,9 +190,11 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span>
 </div>
-<div class="viewcode-block" id="Webpage.html"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.html">[docs]</a>    <span class="k">def</span> <span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Webpage.html"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.html">[docs]</a>    <span class="k">def</span> <span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return contents of the Webpage as html.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">encoding</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">encoding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Webpage.soup"><a class="viewcode-back" href="../../index.html#trunc.web.Webpage.soup">[docs]</a>    <span class="k">def</span> <span class="nf">soup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return contents of the Webpage as a BeautifulSoup object.&quot;&quot;&quot;</span>
