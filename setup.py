@@ -1,48 +1,40 @@
 """
 A Tool for the Russian National Corpus
 """
-from setuptools import find_packages, setup
+import os
+import os.path
+from setuptools import setup
 
-dependencies = ['click']
+here = os.path.abspath(os.path.dirname(__file__))
+
+about = {}
+with open(os.path.join(here, "trunc", "__about__.py")) as about_file:
+    exec(about_file.read(), about)
 
 setup(
     name='trunc',
-    version='0.0.1',
-    url='https://github.com/menzenski/trunc',
-    license='BSD',
-    author='Matt Menzenski',
-    author_email='matt.menzenski@gmail.com',
-    description='A Tool for the Russian National Corpus',
+    version=about['__version__'],
+    url=about['__url__'],
+    license=about['__license__'],
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    maintainer=about['__maintainer__'],
+    maintainer_email=about['__maintainer_email__'],
+    description=about['__description__'],
     long_description=__doc__,
-    packages=find_packages(exclude=['tests']),
     include_package_data=True,
     zip_safe=False,
     platforms='any',
-    install_requires=dependencies,
     entry_points={
         'console_scripts': [
             'trunc = trunc.cli:main',
         ],
     },
     classifiers=[
-        # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        # 'Development Status :: 1 - Planning',
-        # 'Development Status :: 2 - Pre-Alpha',
-        # 'Development Status :: 3 - Alpha',
-        'Development Status :: 4 - Beta',
-        # 'Development Status :: 5 - Production/Stable',
-        # 'Development Status :: 6 - Mature',
-        # 'Development Status :: 7 - Inactive',
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
-        'Operating System :: POSIX',
-        'Operating System :: MacOS',
-        'Operating System :: Unix',
-        'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
+        'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
-    ]
+    ],
+    setup_requires=['pytest-runner'],
+    tests_requires=['pytest'],
 )
