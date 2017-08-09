@@ -1,29 +1,34 @@
 #!/usr/bin/env python3
 
+from hypothesis import assume, given
 import pytest
 import trunc.util as util
 
-
-def test_getting_digits_from_strings_of_all_digits():
-    assert '123' == util.just_digits('123')
-    assert '1' == util.just_digits('1')
+from .testutils import Generators
 
 
-def test_getting_digits_from_nonempty_strings_with_no_digits():
-    assert '' == util.just_digits('abcde')
-    assert '' == util.just_digits('./+')
+@given(Generators.STRING_OF_DIGITS)
+def test_getting_digits_from_strings_of_all_digits(s):
+    assert s == util.just_digits(s)
 
 
-def test_converting_strings_that_contain_all_numbers():
-    assert 123 == util.ints_from_string('123')
-    assert 12345 == util.ints_from_string('12345')
+@given(Generators.STRING_NO_DIGITS)
+def test_getting_digits_from_nonempty_strings_with_no_digits(s):
+    assert '' == util.just_digits(s)
 
 
-def test_converting_strings_that_contain_numbers_and_spaces():
-    assert 14311 == util.ints_from_string('14 311')
-    assert 12345 == util.ints_from_string('12 345')
+@given(Generators.STRING_OF_DIGITS)
+def test_converting_strings_that_contain_all_numbers(s):
+    assert int(s) == util.ints_from_string(s)
 
 
-def test_converting_nonempty_strings_with_no_digits():
+@given(Generators.STRING_OF_DIGITS_AND_WHITESPACE)
+def test_converting_strings_that_contain_numbers_and_spaces(s):
+    assume("" != s.strip())
+    assert isinstance(util.ints_from_string(s), int)
+
+
+@given(Generators.STRING_NO_DIGITS)
+def test_converting_nonempty_strings_with_no_digits(s):
     with pytest.raises(ValueError):
-        util.ints_from_string('abc')
+        util.ints_from_string(s)
