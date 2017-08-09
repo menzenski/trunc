@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io/api/vim,python
 
+.hypothesis/
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
